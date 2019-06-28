@@ -46,14 +46,14 @@ JJSYNTH_DUMMY_CLASS(NSMutableArray_MutableArrayHook)
     }
 }
 - (id) hookObjectAtIndex:(NSUInteger)index {
-    if (index < self.count) {
+    if (index < self.count || index == 0) {
         return [self hookObjectAtIndex:index];
     }
     handleCrashException(JJExceptionGuardArrayContainer,[NSString stringWithFormat:@"NSMutableArray objectAtIndex invalid index:%tu total:%tu",index,self.count]);
     return nil;
 }
 - (id) hookObjectAtIndexedSubscript:(NSInteger)index {
-    if (index < self.count) {
+    if (index < self.count || index == 0) {
         return [self hookObjectAtIndexedSubscript:index];
     }
     handleCrashException(JJExceptionGuardArrayContainer,[NSString stringWithFormat:@"NSMutableArray objectAtIndexedSubscript invalid index:%tu total:%tu",index,self.count]);
@@ -68,7 +68,7 @@ JJSYNTH_DUMMY_CLASS(NSMutableArray_MutableArrayHook)
 }
 
 - (void) hookRemoveObjectAtIndex:(NSUInteger)index {
-    if (index < self.count) {
+    if (index < self.count || index == 0) {
         [self hookRemoveObjectAtIndex:index];
     }else{
         handleCrashException(JJExceptionGuardArrayContainer,[NSString stringWithFormat:@"NSMutableArray removeObjectAtIndex invalid index:%tu total:%tu",index,self.count]);
@@ -77,7 +77,7 @@ JJSYNTH_DUMMY_CLASS(NSMutableArray_MutableArrayHook)
 
 
 - (void) hookReplaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
-    if (index < self.count && anObject) {
+    if ((index < self.count || index == 0) && anObject) {
         [self hookReplaceObjectAtIndex:index withObject:anObject];
     }else{
         handleCrashException(JJExceptionGuardArrayContainer,[NSString stringWithFormat:@"NSMutableArray replaceObjectAtIndex invalid index:%tu total:%tu replace object:%@",index,self.count,anObject]);
@@ -85,7 +85,7 @@ JJSYNTH_DUMMY_CLASS(NSMutableArray_MutableArrayHook)
 }
 
 - (void) hookSetObject:(id)object atIndexedSubscript:(NSUInteger)index {
-    if (index <= self.count && object) {
+    if ((index < self.count || index == 0) && object) {
         [self hookSetObject:object atIndexedSubscript:index];
     }else{
         handleCrashException(JJExceptionGuardArrayContainer,[NSString stringWithFormat:@"NSMutableArray setObject invalid object:%@ atIndexedSubscript:%tu total:%tu",object,index,self.count]);
